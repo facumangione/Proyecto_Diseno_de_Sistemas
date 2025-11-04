@@ -31,7 +31,8 @@ from python_racing.entidades.motos.neumatico import (
     TipoNeumatico,
     EstadoNeumatico
 )
-from PythonRacing.python_racing.entidades.mantenimiento.fallo_mecanico import (
+# ✅ CORREGIDO: Sin "PythonRacing." al inicio
+from python_racing.entidades.mantenimiento.fallo_mecanico import (
     FalloMecanico,
     TipoFallo,
     GravedadFallo
