@@ -1,4 +1,3 @@
-# python_racing/__init__.py
 """
 PythonRacing - Sistema de Gestión de Carreras de Motos
 ======================================================
