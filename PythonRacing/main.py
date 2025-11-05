@@ -7,6 +7,7 @@ from python_racing.servicios.escuderias.corredor_service import CorredorService
 from python_racing.servicios.circuitos.circuito_service import CircuitoService
 from python_racing.servicios.circuitos.carrera_service import CarreraService
 from python_racing.servicios.motos.moto_service import MotoService
+from python_racing.servicios.motos.moto_service_registry import MotoServiceRegistry
 
 # Patrones
 from python_racing.patrones.factory.moto_factory import MotoFactory
@@ -37,6 +38,60 @@ def imprimir_seccion(titulo: str, ancho: int = 70):
     print("\n" + "-" * ancho)
     print("  " + titulo)
     print("-" * ancho)
+
+
+def demostrar_singleton_registry():
+    """Demuestra los patrones SINGLETON y REGISTRY."""
+    imprimir_seccion("PATRON SINGLETON + REGISTRY: MotoServiceRegistry")
+    
+    print("\n1. Verificando Singleton (múltiples instancias):")
+    registry1 = MotoServiceRegistry()
+    registry2 = MotoServiceRegistry()
+    registry3 = MotoServiceRegistry()
+    
+    if registry1 is registry2 is registry3:
+        print("   [OK] Todas las instancias son LA MISMA (Singleton)")
+        print(f"   ID registry1: {id(registry1)}")
+        print(f"   ID registry2: {id(registry2)}")
+        print(f"   ID registry3: {id(registry3)}")
+    else:
+        print("   [ERROR] Singleton NO funciona correctamente")
+    
+    print("\n2. Creando motos de diferentes marcas:")
+    ducati = MotoFactory.crear_moto("Ducati")
+    yamaha = MotoFactory.crear_moto("Yamaha")
+    ktm = MotoFactory.crear_moto("KTM")
+    honda = MotoFactory.crear_moto("Honda")
+    
+    motos = [ducati, yamaha, ktm, honda]
+    print(f"   [OK] {len(motos)} motos creadas")
+    
+    print("\n3. Mostrando datos usando Registry (dispatch polimórfico):")
+    print("   " + "=" * 60)
+    
+    for moto in motos:
+        # ✅ Registry hace dispatch automático SIN isinstance()
+        registry1.mostrar_datos(moto)
+    
+    print("\n4. Verificando estado de todas las motos:")
+    print("   " + "=" * 60)
+    
+    for moto in motos:
+        estado = registry1.verificar_estado(moto)
+        print(f"\n   {estado['marca']}:")
+        print(f"     Estado: {estado['estado']}")
+        for alerta in estado['alertas']:
+            print(f"     {alerta}")
+    
+    print("\n   " + "=" * 60)
+    
+    print("\n5. Marcas registradas en el sistema:")
+    marcas = registry1.listar_marcas_registradas()
+    print(f"   {', '.join(marcas)}")
+    
+    print("\n[OK] Patrones SINGLETON + REGISTRY funcionan correctamente")
+    print("     - Singleton: Única instancia compartida thread-safe")
+    print("     - Registry: Dispatch polimórfico SIN isinstance()")
 
 
 def demostrar_factory():
@@ -163,7 +218,8 @@ def demostrar_simulacion_carrera():
     # Crear corredores
     print("\n2. Registrando corredores...")
     bagnaia = corredor_service.registrar_corredor(
-        "Francesco Bagnaia", "Italia", 63, 27, ducati)
+        "Francesco Bagnaia", "Italia", 63, 27, ducati
+    )
     bastianini = corredor_service.registrar_corredor(
         "Enea Bastianini", "Italia", 23, 26, ducati
     )
@@ -219,34 +275,40 @@ def main():
     imprimir_encabezado("SISTEMA DE GESTION DE CARRERAS - PYTHONRACING")
     
     print("\nDemostración completa de patrones de diseño implementados:")
+    print("  - SINGLETON (MotoServiceRegistry)")
     print("  - FACTORY METHOD (MotoFactory)")
     print("  - STRATEGY (Desgaste de neumáticos)")
     print("  - OBSERVER (Telemetría en tiempo real)")
-    print("  - SINGLETON (Bonus - MotoServiceRegistry)")
+    print("  - REGISTRY (Dispatch polimórfico)")
     
     try:
         # Crear servicios
         moto_service = MotoService()
         
-        # 1. FACTORY METHOD
+        # 1. SINGLETON + REGISTRY
+        demostrar_singleton_registry()
+        
+        # 2. FACTORY METHOD
         demostrar_factory()
         
-        # 2. STRATEGY
+        # 3. STRATEGY
         demostrar_strategy(moto_service)
         
-        # 3. OBSERVER
+        # 4. OBSERVER
         demostrar_observer()
         
-        # 4. SIMULACIÓN COMPLETA
+        # 5. SIMULACIÓN COMPLETA
         demostrar_simulacion_carrera()
         
         # Resumen final
         imprimir_encabezado("EJEMPLO COMPLETADO EXITOSAMENTE")
         
         print("\nResumen de patrones demostrados:")
+        print("  [OK] SINGLETON   - MotoServiceRegistry (instancia única)")
         print("  [OK] FACTORY     - Creación dinámica de 4 marcas de motos")
         print("  [OK] STRATEGY    - Algoritmos de desgaste intercambiables")
         print("  [OK] OBSERVER    - Sistema de telemetría con sensores")
+        print("  [OK] REGISTRY    - Dispatch polimórfico sin isinstance()")
         
         print("\nFuncionalidades demostradas:")
         print("  [OK] Gestión de escuderías y corredores")
