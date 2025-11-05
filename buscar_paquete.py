@@ -1,12 +1,6 @@
 """
-Script para buscar el paquete python_racing desde el directorio raíz del proyecto.
-Incluye funcionalidad para integrar archivos Python en cada nivel del árbol de directorios.
-
-Uso:
-    python buscar_paquete.py                 # Busca el paquete python_racing
-    python buscar_paquete.py integrar        # Integra archivos del directorio actual
-    python buscar_paquete.py integrar [DIR]  # Integra archivos del directorio especificado
-    python buscar_paquete.py help            # Muestra ayuda
+Script para buscar el paquete python_racing desde el directorio raiz del proyecto.
+Incluye funcionalidad para integrar archivos Python en cada nivel del arbol de directorios.
 """
 import os
 import sys
@@ -15,14 +9,14 @@ from datetime import datetime
 
 def buscar_paquete(directorio_raiz: str, nombre_paquete: str) -> list:
     """
-    Busca un paquete Python en el directorio raíz y subdirectorios.
+    Busca un paquete Python en el directorio raiz y subdirectorios.
 
     Args:
-        directorio_raiz: Directorio desde donde iniciar la búsqueda
+        directorio_raiz: Directorio desde donde iniciar la busqueda
         nombre_paquete: Nombre del paquete a buscar
 
     Returns:
-        Lista de rutas donde se encontró el paquete
+        Lista de rutas donde se encontro el paquete
     """
     paquetes_encontrados = []
 
@@ -43,7 +37,7 @@ def buscar_paquete(directorio_raiz: str, nombre_paquete: str) -> list:
 
 def obtener_archivos_python(directorio: str) -> list:
     """
-    Obtiene todos los archivos Python en un directorio (sin recursión).
+    Obtiene todos los archivos Python en un directorio (sin recursion).
 
     Args:
         directorio: Ruta del directorio a examinar
@@ -56,8 +50,8 @@ def obtener_archivos_python(directorio: str) -> list:
         for item in os.listdir(directorio):
             ruta_completa = os.path.join(directorio, item)
             if os.path.isfile(ruta_completa) and item.endswith('.py'):
-                # Excluir archivos integradores para evitar recursión infinita
-                if item not in ['integrador.py', 'integradorFinal.py', 'buscar_paquete.py']:
+                # Excluir archivos integradores para evitar recursion infinita
+                if item not in ['integrador.py', 'integradorFinal.py']:
                     archivos_python.append(ruta_completa)
     except PermissionError:
         print(f"[!] Sin permisos para leer: {directorio}")
@@ -81,7 +75,7 @@ def obtener_subdirectorios(directorio: str) -> list:
             ruta_completa = os.path.join(directorio, item)
             if os.path.isdir(ruta_completa):
                 # Excluir directorios especiales
-                if not item.startswith('.') and item not in ['__pycache__', 'venv', '.venv', 'data', 'data_test', '.idea']:
+                if not item.startswith('.') and item not in ['__pycache__', 'venv', '.venv']:
                     subdirectorios.append(ruta_completa)
     except PermissionError:
         print(f"[!] Sin permisos para leer: {directorio}")
@@ -116,7 +110,7 @@ def crear_archivo_integrador(directorio: str, archivos_python: list) -> bool:
         archivos_python: Lista de rutas de archivos Python a integrar
 
     Returns:
-        True si se creó exitosamente, False en caso contrario
+        True si se creo exitosamente, False en caso contrario
     """
     if not archivos_python:
         return False
@@ -127,8 +121,7 @@ def crear_archivo_integrador(directorio: str, archivos_python: list) -> bool:
         with open(ruta_integrador, 'w', encoding='utf-8') as integrador:
             # Encabezado
             integrador.write('"""\n')
-            integrador.write(f"Archivo integrador generado automáticamente\n")
-            integrador.write(f"Proyecto: PythonRacing\n")
+            integrador.write(f"Archivo integrador generado automaticamente\n")
             integrador.write(f"Directorio: {directorio}\n")
             integrador.write(f"Fecha: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}\n")
             integrador.write(f"Total de archivos integrados: {len(archivos_python)}\n")
@@ -158,7 +151,7 @@ def crear_archivo_integrador(directorio: str, archivos_python: list) -> bool:
 def procesar_directorio_recursivo(directorio: str, nivel: int = 0, archivos_totales: list = None) -> list:
     """
     Procesa un directorio de forma recursiva, creando integradores en cada nivel.
-    Utiliza DFS (Depth-First Search) para llegar primero a los niveles más profundos.
+    Utiliza DFS (Depth-First Search) para llegar primero a los niveles mas profundos.
 
     Args:
         directorio: Directorio a procesar
@@ -166,7 +159,7 @@ def procesar_directorio_recursivo(directorio: str, nivel: int = 0, archivos_tota
         archivos_totales: Lista acumulativa de todos los archivos procesados
 
     Returns:
-        Lista de todos los archivos Python procesados en el árbol
+        Lista de todos los archivos Python procesados en el arbol
     """
     if archivos_totales is None:
         archivos_totales = []
@@ -181,7 +174,7 @@ def procesar_directorio_recursivo(directorio: str, nivel: int = 0, archivos_tota
     for subdir in subdirectorios:
         procesar_directorio_recursivo(subdir, nivel + 1, archivos_totales)
 
-    # Después de procesar subdirectorios, procesar archivos del nivel actual
+    # Despues de procesar subdirectorios, procesar archivos del nivel actual
     archivos_python = obtener_archivos_python(directorio)
 
     if archivos_python:
@@ -197,14 +190,14 @@ def procesar_directorio_recursivo(directorio: str, nivel: int = 0, archivos_tota
 
 def crear_integrador_final(directorio_raiz: str, archivos_totales: list) -> bool:
     """
-    Crea un archivo integradorFinal.py con TODO el código fuente de todas las ramas.
+    Crea un archivo integradorFinal.py con TODO el codigo fuente de todas las ramas.
 
     Args:
         directorio_raiz: Directorio donde crear el archivo integrador final
         archivos_totales: Lista completa de todos los archivos Python procesados
 
     Returns:
-        True si se creó exitosamente, False en caso contrario
+        True si se creo exitosamente, False en caso contrario
     """
     if not archivos_totales:
         print("[!] No hay archivos para crear el integrador final")
@@ -224,11 +217,10 @@ def crear_integrador_final(directorio_raiz: str, archivos_totales: list) -> bool
         with open(ruta_integrador_final, 'w', encoding='utf-8') as integrador_final:
             # Encabezado principal
             integrador_final.write('"""\n')
-            integrador_final.write("INTEGRADOR FINAL - CONSOLIDACIÓN COMPLETA DEL PROYECTO\n")
+            integrador_final.write("INTEGRADOR FINAL - CONSOLIDACION COMPLETA DEL PROYECTO\n")
             integrador_final.write("=" * 76 + "\n")
-            integrador_final.write("Proyecto: PythonRacing\n")
-            integrador_final.write(f"Directorio raíz: {directorio_raiz}\n")
-            integrador_final.write(f"Fecha de generación: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}\n")
+            integrador_final.write(f"Directorio raiz: {directorio_raiz}\n")
+            integrador_final.write(f"Fecha de generacion: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}\n")
             integrador_final.write(f"Total de archivos integrados: {len(archivos_totales)}\n")
             integrador_final.write(f"Total de directorios procesados: {len(archivos_por_directorio)}\n")
             integrador_final.write("=" * 76 + "\n")
@@ -288,7 +280,7 @@ def crear_integrador_final(directorio_raiz: str, archivos_totales: list) -> bool
         print(f"     Total de archivos integrados: {len(archivos_totales)}")
         print(f"     Total de directorios procesados: {len(archivos_por_directorio)}")
 
-        # Mostrar tamaño del archivo
+        # Mostrar tamanio del archivo
         tamanio = os.path.getsize(ruta_integrador_final)
         if tamanio < 1024:
             tamanio_str = f"{tamanio} bytes"
@@ -296,7 +288,7 @@ def crear_integrador_final(directorio_raiz: str, archivos_totales: list) -> bool
             tamanio_str = f"{tamanio / 1024:.2f} KB"
         else:
             tamanio_str = f"{tamanio / (1024 * 1024):.2f} MB"
-        print(f"     Tamaño del archivo: {tamanio_str}")
+        print(f"     Tamanio del archivo: {tamanio_str}")
 
         return True
 
@@ -307,21 +299,21 @@ def crear_integrador_final(directorio_raiz: str, archivos_totales: list) -> bool
 
 def integrar_arbol_directorios(directorio_raiz: str) -> None:
     """
-    Inicia el proceso de integración para todo el árbol de directorios.
+    Inicia el proceso de integracion para todo el arbol de directorios.
 
     Args:
-        directorio_raiz: Directorio raíz desde donde comenzar
+        directorio_raiz: Directorio raiz desde donde comenzar
     """
     print("\n" + "=" * 80)
-    print("INICIANDO INTEGRACIÓN DE ARCHIVOS PYTHON - PYTHONRACING")
+    print("INICIANDO INTEGRACION DE ARCHIVOS PYTHON")
     print("=" * 80)
-    print(f"Directorio raíz: {directorio_raiz}\n")
+    print(f"Directorio raiz: {directorio_raiz}\n")
 
     # Procesar directorios y obtener lista de todos los archivos
     archivos_totales = procesar_directorio_recursivo(directorio_raiz)
 
     print("\n" + "=" * 80)
-    print("INTEGRACIÓN POR NIVELES COMPLETADA")
+    print("INTEGRACION POR NIVELES COMPLETADA")
     print("=" * 80)
 
     # Crear integrador final con todos los archivos
@@ -337,16 +329,16 @@ def integrar_arbol_directorios(directorio_raiz: str) -> None:
 
 
 def main():
-    """Función principal del script."""
-    # Obtener el directorio raíz del proyecto (donde está este script)
+    """Funcion principal del script."""
+    # Obtener el directorio raiz del proyecto (donde esta este script)
     directorio_raiz = os.path.dirname(os.path.abspath(__file__))
 
-    # Verificar argumentos de línea de comandos
+    # Verificar argumentos de linea de comandos
     if len(sys.argv) > 1:
         comando = sys.argv[1].lower()
 
         if comando == "integrar":
-            # Modo de integración de archivos
+            # Modo de integracion de archivos
             if len(sys.argv) > 2:
                 directorio_objetivo = sys.argv[2]
                 if not os.path.isabs(directorio_objetivo):
@@ -362,28 +354,18 @@ def main():
             return 0
 
         elif comando == "help" or comando == "--help" or comando == "-h":
-            print("=" * 70)
-            print("HERRAMIENTA DE INTEGRACIÓN - PYTHONRACING".center(70))
-            print("=" * 70)
-            print("\nUso: python buscar_paquete.py [COMANDO] [OPCIONES]")
+            print("Uso: python buscar_paquete.py [COMANDO] [OPCIONES]")
             print("")
             print("Comandos disponibles:")
             print("  (sin argumentos)     Busca el paquete python_racing")
-            print("  integrar [DIR]       Integra archivos Python en el árbol de directorios")
-            print("                       DIR: directorio raíz (por defecto: directorio actual)")
+            print("  integrar [DIR]       Integra archivos Python en el arbol de directorios")
+            print("                       DIR: directorio raiz (por defecto: directorio actual)")
             print("  help                 Muestra esta ayuda")
             print("")
             print("Ejemplos:")
             print("  python buscar_paquete.py")
             print("  python buscar_paquete.py integrar")
             print("  python buscar_paquete.py integrar python_racing")
-            print("")
-            print("Funcionalidad:")
-            print("  - Busca paquetes Python en el proyecto")
-            print("  - Crea archivos integrador.py en cada directorio")
-            print("  - Genera integradorFinal.py con todo el código fuente")
-            print("  - Útil para revisión de código y documentación")
-            print("=" * 70)
             return 0
 
         else:
@@ -392,10 +374,7 @@ def main():
             return 1
 
     # Modo por defecto: buscar paquete
-    print("\n" + "=" * 70)
-    print("BÚSQUEDA DE PAQUETES - PYTHONRACING".center(70))
-    print("=" * 70)
-    print(f"\n[INFO] Buscando desde: {directorio_raiz}")
+    print(f"[INFO] Buscando desde: {directorio_raiz}")
     print(f"[INFO] Buscando paquete: python_racing")
     print("")
 
@@ -408,7 +387,7 @@ def main():
         for paquete in paquetes:
             print(f"  - {paquete}")
 
-            # Mostrar estructura básica del paquete
+            # Mostrar estructura basica del paquete
             print(f"    Contenido:")
             try:
                 contenido = os.listdir(paquete)
@@ -419,17 +398,13 @@ def main():
                     else:
                         print(f"      [FILE] {item}")
                 if len(contenido) > 10:
-                    print(f"      ... y {len(contenido) - 10} items más")
+                    print(f"      ... y {len(contenido) - 10} items mas")
             except PermissionError:
                 print(f"      [!] Sin permisos para leer el directorio")
     else:
-        print("[!] No se encontró el paquete python_racing")
-        print("\nSugerencia: Verifica que estés en el directorio correcto del proyecto")
+        print("[!] No se encontro el paquete python_racing")
         return 1
 
-    print("\n" + "=" * 70)
-    print("BÚSQUEDA COMPLETADA".center(70))
-    print("=" * 70)
     return 0
 
 

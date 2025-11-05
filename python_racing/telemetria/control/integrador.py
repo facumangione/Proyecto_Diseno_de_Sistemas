@@ -1,3 +1,25 @@
+"""
+Archivo integrador generado automaticamente
+Directorio: /home/facundo/Escritorio/Proyecto_Diseno_de_Sistemas/PythonRacing/python_racing/telemetria/control
+Fecha: 2025-11-04 22:18:17
+Total de archivos integrados: 2
+"""
+
+# ================================================================================
+# ARCHIVO 1/2: __init__.py
+# Ruta: /home/facundo/Escritorio/Proyecto_Diseno_de_Sistemas/PythonRacing/python_racing/telemetria/control/__init__.py
+# ================================================================================
+
+"""
+Controladores de telemetría
+"""
+
+
+# ================================================================================
+# ARCHIVO 2/2: control_boxes_task.py
+# Ruta: /home/facundo/Escritorio/Proyecto_Diseno_de_Sistemas/PythonRacing/python_racing/telemetria/control/control_boxes_task.py
+# ================================================================================
+
 import threading
 import time
 from constante import (
@@ -138,3 +160,5 @@ class ControlBoxesTask(Observer):
     
     def requiere_entrada_boxes(self) -> bool:
         return self._alerta_activa
+
+
